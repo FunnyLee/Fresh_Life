@@ -19,7 +19,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 配置apps文件夹的路径
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -40,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tinymce',  # 富文本编辑器
     'cart',  # 购物车模块
     'goods',  # 商品模块
     'order',  # 订单模块
@@ -92,7 +92,7 @@ DATABASES = {
     }
 }
 
-#django认证系统使用的模型类
+# django认证系统使用的模型类
 AUTH_USER_MODEL = 'user.User'
 
 # Internationalization
@@ -113,3 +113,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]  # # 设置静态文件的保存目录
+
+# 富文本配置
+TINYMCE_DEFAULT_CONFIG = {
+    'theme': 'advanced',
+    'width': 600,
+    'height': 400,
+}
