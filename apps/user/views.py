@@ -73,6 +73,9 @@ class RegisterView(View):
         html_message = '<h2>天天生鲜激活邮件</h2> <br/> <a href="' + addr + '"> ' + addr + '</a>'
 
         receive_list = [email]
+
+        # TODO 使用celery异步发送邮件
+
         # 发送邮件
         send_mail(subject, '', settings.EMAIL_FROM, receive_list, html_message=html_message)
 
