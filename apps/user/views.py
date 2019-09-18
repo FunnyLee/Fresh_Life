@@ -76,7 +76,6 @@ class RegisterView(View):
 
         # TODO 使用celery异步发送邮件
 
-
         # 发送邮件
         send_mail(subject, '', settings.EMAIL_FROM, receive_list, html_message=html_message)
 
