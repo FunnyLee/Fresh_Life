@@ -109,10 +109,20 @@ class LoginView(View):
     '''登录类视图'''
 
     def get(self, request):
-        return render(request, 'login.html')
+        '''显示登录页面'''
+        cookies = request.COOKIES;
+
+        if 'username' in cookies:
+            username = cookies.get('username')
+            checked = 'checked'
+        else:
+            username = ''
+            checked = ''
+
+        return render(request, 'login.html', {'username': username, 'checked': checked})
 
     def post(self, request):
-        # 登录逻辑校验
+        '''登录逻辑校验'''
 
         username = request.POST.get('username')
         password = request.POST.get('pwd')
@@ -131,8 +141,17 @@ class LoginView(View):
             if user.is_active:
                 # django内置方法保存session,保存登录状态
                 login(request, user)
+
+                response = redirect(reverse('goods:index'))
+
+                remember = request.POST.get('remember')
+                if remember == 'on':
+                    response.set_cookie('username', username, max_age=3600 * 12 * 7)
+                else:
+                    response.delete_cookie('username')
+
                 # 跳转到首页
-                return redirect(reverse('goods:index'))
+                return response
 
             else:
                 return render(request, 'login.html', {'errmsg': '用户未激活'})
