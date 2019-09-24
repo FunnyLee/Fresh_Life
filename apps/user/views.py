@@ -1,5 +1,6 @@
 import re
 
+from django.contrib.auth import authenticate, login
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
@@ -109,3 +110,33 @@ class LoginView(View):
 
     def get(self, request):
         return render(request, 'login.html')
+
+    def post(self, request):
+        # 登录逻辑校验
+
+        username = request.POST.get('username')
+        password = request.POST.get('pwd')
+
+        # 非空校验
+        if not all([username, password]):
+            return render(request, 'login.html', {'errmsg': '数据不完整'})
+
+        # 使用django内置的认证功能
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            # 用户名和密码正确
+
+            # 判断是否为激活用户
+            if user.is_active:
+                # django内置方法保存session,保存登录状态
+                login(request, user)
+                # 跳转到首页
+                return redirect(reverse('goods:index'))
+
+            else:
+                return render(request, 'login.html', {'errmsg': '用户未激活'})
+
+        else:
+            # 用户名和密码错误
+            return render(request, 'login.html', {'errmsg': '用户名或密码错误'})
