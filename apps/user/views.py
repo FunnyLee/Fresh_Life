@@ -11,6 +11,7 @@ from user.models import User
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired
 from fresh_life import settings
+from celery_tasks.tasks import send_register_active_email
 
 
 # Create your views here.
@@ -68,17 +69,20 @@ class RegisterView(View):
         token = serializer.dumps(info)
         # 这里需要解码
         token = bytes.decode(token)
-        subject = '天天生鲜欢迎你'
 
+        '''
+        subject = '天天生鲜欢迎你'
         addr = "http://127.0.0.1:8000/user/active/%s" % token
         html_message = '<h2>天天生鲜激活邮件</h2> <br/> <a href="' + addr + '"> ' + addr + '</a>'
 
         receive_list = [email]
 
-        # TODO 使用celery异步发送邮件
-
         # 发送邮件，这个方法是同步返回的，可能会造成阻塞
         send_mail(subject, '', settings.EMAIL_FROM, receive_list, html_message=html_message)
+        '''
+
+        # 使用celery发送邮件
+        send_register_active_email.delay(email,token)
 
         # 注册成功，重定向到首页
         return redirect(reverse('goods:index'))
