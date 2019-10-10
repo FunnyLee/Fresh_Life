@@ -77,7 +77,7 @@ class RegisterView(View):
 
         # TODO 使用celery异步发送邮件
 
-        # 发送邮件
+        # 发送邮件，这个方法是同步返回的，可能会造成阻塞
         send_mail(subject, '', settings.EMAIL_FROM, receive_list, html_message=html_message)
 
         # 注册成功，重定向到首页
