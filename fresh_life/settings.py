@@ -131,3 +131,18 @@ EMAIL_HOST_USER = '13066807136@163.com'
 EMAIL_HOST_PASSWORD = 'hl102395'
 # 收件人看到的发件人
 EMAIL_FROM = 'huanglin<13066807136@163.com>'
+
+
+# 配置redis存储session，redis版本过高导致失败
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/9",
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
+# }
+#
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
