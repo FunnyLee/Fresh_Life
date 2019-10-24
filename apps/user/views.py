@@ -82,7 +82,7 @@ class RegisterView(View):
         '''
 
         # 使用celery发送邮件
-        send_register_active_email.delay(email,token)
+        send_register_active_email.delay(email, token)
 
         # 注册成功，重定向到首页
         return redirect(reverse('goods:index'))
@@ -163,3 +163,24 @@ class LoginView(View):
         else:
             # 用户名和密码错误
             return render(request, 'login.html', {'errmsg': '用户名或密码错误'})
+
+
+class UserInfoView(View):
+    '''用户信息View'''
+
+    def get(self, request):
+        return render(request, 'user_center_info.html')
+
+
+class UserOrderView(View):
+    '''用户订单View'''
+
+    def get(self, request):
+        return render(request, 'user_center_order.html')
+
+
+class UserAddressView(View):
+    '''用户地址View'''
+
+    def get(self, request):
+        return render(request, 'user_center_site.html')
