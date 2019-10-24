@@ -1,10 +1,12 @@
 import re
 
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import View
 
 from user.models import User
@@ -13,8 +15,9 @@ from itsdangerous import SignatureExpired
 from fresh_life import settings
 from celery_tasks.tasks import send_register_active_email
 
-
 # Create your views here.
+from utils.fdfs.mixin import LoginRequiredMixin
+
 
 class RegisterView(View):
     '''注册类视图'''
@@ -172,14 +175,14 @@ class UserInfoView(View):
         return render(request, 'user_center_info.html')
 
 
-class UserOrderView(View):
+class UserOrderView(LoginRequiredMixin,View):
     '''用户订单View'''
 
     def get(self, request):
         return render(request, 'user_center_order.html')
 
 
-class UserAddressView(View):
+class UserAddressView(LoginRequiredMixin, View):
     '''用户地址View'''
 
     def get(self, request):

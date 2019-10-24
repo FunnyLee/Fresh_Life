@@ -132,7 +132,6 @@ EMAIL_HOST_PASSWORD = 'hl102395'
 # 收件人看到的发件人
 EMAIL_FROM = 'huanglin<13066807136@163.com>'
 
-
 # 配置redis存储session，redis版本过高导致失败
 # CACHES = {
 #     "default": {
@@ -146,3 +145,6 @@ EMAIL_FROM = 'huanglin<13066807136@163.com>'
 #
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # SESSION_CACHE_ALIAS = "default"
+
+# django login_required失败后访问的地址
+LOGIN_URL = '/user/login'
