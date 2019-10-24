@@ -149,7 +149,10 @@ class LoginView(View):
                 # django内置方法保存session,保存登录状态
                 login(request, user)
 
-                response = redirect(reverse('goods:index'))
+                # 获取登录后要跳转的url(得到get请求中next的url)，默认是跳转到首页
+                # http://127.0.0.1:8000/user/login?next=/user/order
+                next_url = request.GET.get('next',reverse('goods:index'))
+                response = redirect(next_url)
 
                 remember = request.POST.get('remember')
                 if remember == 'on':
